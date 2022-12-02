@@ -9,7 +9,7 @@ const firstMessage = 'Выбери одну из тем \n 1.Веселье \n 2
 
 prompt.start()
 
-let question = ['вопрос1','ответ1','вопрос2','ответ2','вопрос3','ответ3','вопрос4','ответ4',]
+// let question = ['вопрос1','ответ1','вопрос2','ответ2','вопрос3','ответ3','вопрос4','ответ4',]
 
 // prompt.message = c.red("Question!");
 
@@ -35,9 +35,15 @@ function (err, result) {
         console.log('что тут?!')
     }
     
+
+
+
+
+
     console.log(question[result.question])
+    console.log(enumeration(getArrAnswerQuestion()))
 
-
+    
     // console.log(c.blue(result.question))
     return 
 }
@@ -54,7 +60,6 @@ function counter (input, answer) {
 }
 
 
-const fs = require('fs');
 
 function getArrAnswerQuestion() {
   const question = fs.readFileSync(
@@ -62,7 +67,8 @@ function getArrAnswerQuestion() {
     'utf-8'
   );
   const questionAnswer = question.split('\n').filter((el) => el);
-  console.log(questionAnswer);
+//   console.log(questionAnswer);
+  return questionAnswer
 }
 getArrAnswerQuestion(); 
 
@@ -89,5 +95,7 @@ function enumeration(arr) {
   }
 }
 
+// enumeration(getArrAnswerQuestion())
+console.log(enumeration(getArrAnswerQuestion()))
 
 
