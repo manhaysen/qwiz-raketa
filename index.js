@@ -1,93 +1,69 @@
-
 const fs = require('fs');
 const prompt = require('prompt');
 const c = require('ansi-colors');
+const readlineSync = require('readline-sync');
+
+function questions() {
+  // стартовый путь к файлам
+  let path = '';
+  // стартовая надпись
+  const firstMessage =
+    'Выбери одну из тем\n\n 1.Странные вопросы \n 2.Самый-самый \n 3.Это Питер, детка! \n';
+  console.log(firstMessage);
 
 
-const firstMessage = 'Выбери одну из тем \n 1.Веселье \n 2.Печаль \n 3.Нормально \n'
+  // спрашиваем номер темы
+  const result = readlineSync.question('Введите номер темы\n');
 
+  // если тема подходит то создаём новый путь
+  if (result === '1') {
+    path = `1.txt`;
+  } else if (result === '2') {
+    path = `2.txt`;
+  } else if (result === '3') {
+    path = `3.txt`;
+  } else {
+    console.log('\nа такой нет\n');
+  }
+  console.log(c.yellow('＼(〇_ｏ)／\nЕсли станет страшно - введи end,\nЕсли хочешь выбрать другую тему - введи start\n＼(〇_ｏ)／\n'));
 
-prompt.start()
-
-let question = ['вопрос1','ответ1','вопрос2','ответ2','вопрос3','ответ3','вопрос4','ответ4',]
-
-// prompt.message = c.red("Question!");
-
-prompt.get([
-    {
-    description: (c.blue(firstMessage)),
-    type: 'number',
-    question: ''
-
- },
-   
-],
-function (err, result) {
- let answer = '0'
-    if (result.question === 1) {
-        answer = result.question
-        console.log('привет!')
-    } else if (result.question === 2) {
-        answer = result.question
-        console.log('пока!')
-    } else if (result.question === 2) {
-        answer = result.question
-        console.log('что тут?!')
-    }
-    
-    console.log(question[result.question])
-
-
-    // console.log(c.blue(result.question))
-    return 
-}
-)
-    
-
-function counter (input, answer) {
-  let counter = 0;
-  if(input.toLowerCase().trim() === answer.toLowerCase()) {
-    counter+=5;
-  } else counter -= 5;
-  return counter;
-
-}
-
-
-const fs = require('fs');
-
-function getArrAnswerQuestion() {
-  const question = fs.readFileSync(
-    `${__dirname}/topics/nighthawk_flashcard_data.txt`,
-    'utf-8'
-  );
+  // тут мы ходим в дирректорию и читаем файл
+  const question = fs.readFileSync(`${__dirname}/topics/${path}`, 'utf-8');
+  // тут мы делаем из файла массив
   const questionAnswer = question.split('\n').filter((el) => el);
-  console.log(questionAnswer);
-}
-getArrAnswerQuestion(); 
 
-// const arr = [
-//   'Что является основным источником пищи для ночных ястребов?',
-//   'насекомые',
-//   'Верно или нет?  Ночные ястребы тесно связаны с ястребами!',
-//   'нет',
-//   'Верно или нет?   Ночные ястребы вьют гнезда.',
-//   'нет',
-//   'Где обыкновенные Ночные Ястребы проводят зиму?',
-//   'Южная Америка',
-//   'Верно или нет?  Бульбат - другое название обыкновенного ночного ястреба.',
-//   'верно',
-// ];
+  // это счётчик побед
+  let counter = 0;
 
-function enumeration(arr) {
-  for (let i = 0; i < arr.length; i += 1) {
-    if (i % 2 === 0) {
-      return arr[i];
-    } else {
-      return arr[i];
+  //перебор только по вопросам без ответа
+  for (let i = 0; i < questionAnswer.length; i += 2) {
+
+    // спрашиваем конкретный вопрос и выводим его
+    const questionN = readlineSync.question(c.blue.bold(`${questionAnswer[i]}\n`));
+
+    //делаем проверку
+    if (questionN.toLowerCase() == questionAnswer[i + 1].toLowerCase()) {
+      console.log('');
+      console.log(c.green('yes\n'));
+      counter++;
+    }
+
+    else { 
+        if (questionN.toLowerCase() === 'start'.toLowerCase()) {
+          return questions()}
+          else{ 
+            if (questionN.toLowerCase() === 'end'.toLowerCase()) {
+            //  console.log('Ваши баллы: ' + counter);
+          break}
+          else{
+      console.log(c.red(`\nнеа\nправильный ответ:${questionAnswer[i + 1]}\n`));}
     }
   }
 }
 
+  // вывод очков
+  console.log('Ваши баллы: ' + counter);
+  return;
+}
 
-
+questions();
