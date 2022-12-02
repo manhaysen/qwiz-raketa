@@ -2,100 +2,78 @@
 const fs = require('fs');
 const prompt = require('prompt');
 const c = require('ansi-colors');
+const readlineSync = require('readline-sync');
 
 
-const firstMessage = 'Выбери одну из тем \n 1.Веселье \n 2.Печаль \n 3.Нормально \n'
 
 
-prompt.start()
 
-// let question = ['вопрос1','ответ1','вопрос2','ответ2','вопрос3','ответ3','вопрос4','ответ4',]
+function questions() {
+    // стартовый путь к файлам
+    let path = ''
+    // стартовая надпись
+    const firstMessage = 'Выбери одну из тем \n 1.Веселье \n 2.Печаль \n 3.Нормально \n'
+    console.log(firstMessage)
 
-// prompt.message = c.red("Question!");
 
-prompt.get([
-    {
-    description: (c.blue(firstMessage)),
-    type: 'number',
-    question: ''
 
- },
-   
-],
-function (err, result) {
- let answer = '0'
-    if (result.question === 1) {
-        answer = result.question
+   // спрашиваем номер темы 
+ const result = readlineSync.question('Введите номер темы')
+
+// если тема подходит то создаём новый путь
+    if (result === '1') {
+        path = `nighthawk_flashcard_data.txt`
         console.log('привет!')
-    } else if (result.question === 2) {
-        answer = result.question
+    } else if (result === '2') {
+        path = `otter_flashcard_data.txt`
         console.log('пока!')
-    } else if (result.question === 2) {
-        answer = result.question
+    } else if (result === '3') {
+        path = `raccoon_flashcard_data.txt`
         console.log('что тут?!')
+    } else {
+        console.log('а такой нет')
     }
     
 
 
+// тут мы ходим в дирректорию и читаем файл
+    const question = fs.readFileSync(
+        `${__dirname}/topics/${path}`,
+        'utf-8'
+      );
+      // тут мы делаем из файла массив 
+      const questionAnswer = question.split('\n').filter((el) => el);
 
 
 
-    console.log(question[result.question])
-    console.log(enumeration(getArrAnswerQuestion()))
 
+
+
+
+// это счётчик побед
+let counter = 0
+//перебор только по вопросам без ответа
+    for (let i = 0; i < questionAnswer.length; i +=2) {
+        
+        // спрашиваем конкретный вопрос
+        const questionN = readlineSync.question(questionAnswer[i])
+        //выводим вопрос
+        console.log(questionN)
+        //делаем проверку
+        if (questionN == questionAnswer[i +1]) {
+            console.log('yes')
+            counter++
+        } 
+        else{
+            console.log('неа')
+        }
+       
+    }
     
-    // console.log(c.blue(result.question))
+    // вывод очков
+    console.log('Верные ответы: ' + counter)
     return 
 }
-)
-    
-
-function counter (input, answer) {
-  let counter = 0;
-  if(input.toLowerCase().trim() === answer.toLowerCase()) {
-    counter+=5;
-  } else counter -= 5;
-  return counter;
-
-}
 
 
-
-function getArrAnswerQuestion() {
-  const question = fs.readFileSync(
-    `${__dirname}/topics/nighthawk_flashcard_data.txt`,
-    'utf-8'
-  );
-  const questionAnswer = question.split('\n').filter((el) => el);
-//   console.log(questionAnswer);
-  return questionAnswer
-}
-getArrAnswerQuestion(); 
-
-// const arr = [
-//   'Что является основным источником пищи для ночных ястребов?',
-//   'насекомые',
-//   'Верно или нет?  Ночные ястребы тесно связаны с ястребами!',
-//   'нет',
-//   'Верно или нет?   Ночные ястребы вьют гнезда.',
-//   'нет',
-//   'Где обыкновенные Ночные Ястребы проводят зиму?',
-//   'Южная Америка',
-//   'Верно или нет?  Бульбат - другое название обыкновенного ночного ястреба.',
-//   'верно',
-// ];
-
-function enumeration(arr) {
-  for (let i = 0; i < arr.length; i += 1) {
-    if (i % 2 === 0) {
-      return arr[i];
-    } else {
-      return arr[i];
-    }
-  }
-}
-
-// enumeration(getArrAnswerQuestion())
-console.log(enumeration(getArrAnswerQuestion()))
-
-
+questions()
