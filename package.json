@@ -1,20 +1,60 @@
 {
-  "name": "flashcards",
+
+  "name": "qwiz-raketa",
+
   "version": "1.0.0",
-  "description": "",
-  "main": "runner.js",
+
+  "description": "## Введение Вам предстоит создать приложение для флэш-карт, которое должно работать как показано на Рисунке 1. Сосредоточьтесь на написании элегантного, объектно-ориентированного кода, не забывая при этом о качественном проектировании и об отборе лучших методов.",
+
+  "main": "index.js",
+
   "scripts": {
+
     "test": "echo \"Error: no test specified\" && exit 1"
+
   },
+
+  "repository": {
+
+    "type": "git",
+
+    "url": "git+https://github.com/manhaysen/qwiz-raketa.git"
+
+  },
+
   "keywords": [],
+
   "author": "",
+
   "license": "ISC",
-  "dependencies": {
-    "readline-sync": "^1.4.10"
+
+  "bugs": {
+
+    "url": "https://github.com/manhaysen/qwiz-raketa/issues"
+
   },
+
+  "homepage": "https://github.com/manhaysen/qwiz-raketa#readme",
+
+  "dependencies": {
+
+    "ansi-colors": "^4.1.3",
+
+    "prompt": "^1.3.0",
+
+    "readline-sync": "^1.4.10"
+
+  },
+
   "devDependencies": {
+
     "eslint": "^8.23.0",
+
     "eslint-config-airbnb-base": "^15.0.0",
+
     "eslint-plugin-import": "^2.26.0"
+
   }
+
 }
+
